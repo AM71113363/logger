@@ -14,7 +14,8 @@ The truth is that I was tired using "Toast(^_^).show()".<br>
 ●install the apk or re-build a new one and start the Server.<br>
 •the default port is 19132<br>
 ●import "LOGGER.java" in your project.<br>
-● then in "onCreate" call->LOGGER.start(this);<br>
+● then in "onCreate" <br>
+call->LOGGER.start(this);<br>
 ●anywhere in you code use LOGGER.SendMessage("String to Send"); to send it to the Server.<br>
 ••in the photo above I used LOGGER.SendMessage("time="+System.currentTimeMillis());<br>
 ●call LOGGER.close() in onDestroy/onPause<br>
