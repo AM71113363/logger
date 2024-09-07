@@ -13,7 +13,7 @@ The truth is that I was tired of using "Toast(^_^).show()".<br>
 ## How to use it<br>
 ●install the apk or re-build a new one and start the Server.<br>
 •the default port is 19132<br>
-●import "LOGGER.java" in your project,and add NetWork permissions<br>
+●import "LOGGER.java" in your project,and add NetWork permissions(the same as Server)<br>
 ● then in "onCreate" <br>
 call》 LOGGER.start(this);<br>
 ●anywhere in you code use LOGGER.SendMessage("String to Send"); to send it to the Server.<br>
