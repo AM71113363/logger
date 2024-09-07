@@ -15,14 +15,15 @@ The truth is that I was tired using "Toast(^_^).show()".<br>
 •the default port is 19132<br>
 ●import "LOGGER.java" in your project.<br>
 ● then in "onCreate" <br>
-call->LOGGER.start(this);<br>
+call》 LOGGER.start(this);<br>
 ●anywhere in you code use LOGGER.SendMessage("String to Send"); to send it to the Server.<br>
 ••in the photo above I used LOGGER.SendMessage("time="+System.currentTimeMillis());<br>
-●call LOGGER.close() in onDestroy/onPause<br>
+●call》 LOGGER.close() in onDestroy/onPause<br>
 
 ## Build.
 ●the source of Apk is MainActivity only<br>
 
 
 # NOTE.
-it will pick up minecraft discovery packets.I did it on purpose😅
+●the two phones must be connected to the same network(it doesn't matter if it is connected to internet or not),I used the phone(Server) as Hotspot(the photo above shows the Hotspot icon),and connected with the other phone where I build my projects.<br>
+●it will pick up minecraft discovery packets.I did it on purpose😅
