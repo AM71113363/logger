@@ -8,7 +8,7 @@ I use Android Studio only for the GUI part,
 but for debug I compile it using JAVA Compilers for Android,because its more easy to test Sensors,NFC,etc.. on my phone.
 The Compilers I use are not so efficient in finding errors.<br>
 SOOOOOOOOOOOooo I made this to help me.
-The truth is that I was tired using "Toast(^_^).show()".<br>
+The truth is that I was tired of using "Toast(^_^).show()".<br>
 
 ## How to use it<br>
 ●install the apk or re-build a new one and start the Server.<br>
