@@ -12,98 +12,96 @@ import android.graphics.*;
 public class MainActivity extends Activity
 {
     private Button startServer;
-	static LinearLayout container;
+    static LinearLayout container;
 	
-	private static float dpi=2.625f;
+    private static float dpi=2.625f;
 	
-	private int dpi2px(float px)
-	{
-		Float calc=Float.valueOf(Math.round(dpi*px));
-		return calc.intValue();
-	}
+    private int dpi2px(float px)
+    {
+	Float calc=Float.valueOf(Math.round(dpi*px));
+      return calc.intValue();
+    }
   
     private Handler hnd=new Handler()
+    {
+	public void handleMessage(Message msg)
 	{
-		public void handleMessage(Message msg)
-		{
-			 Bundle b=msg.getData();
-			 if(b!=null)
-			  {
-				   Object o= b.get("LOG");
-				   if(o!=null)
-				        addElement(o.toString());
-			   }
+	   Bundle b=msg.getData();
+	   if(b!=null)
+	   {
+	       Object o= b.get("LOG");
+	       if(o!=null)
+		  addElement(o.toString());
+	       //addElement((String)o);
 	   }
+	}
     };
 	
-	private byte[] rcv=new byte[512];
-	DatagramSocket dgram=null;
-	private DatagramSocket begin()
+    private byte[] rcv=new byte[512];
+    DatagramSocket dgram=null;
+    private DatagramSocket begin()
+    {
+	try
 	{
-		try
-		{
-			dgram = new DatagramSocket(19132);
-			dgram.setReuseAddress(true);
-		}catch(Throwable e)
-		{ 
-		   startServer.setText("Start Server");
-		   addElement(e.toString());
-		   return null;
-		}
-		return dgram;
+	    dgram = new DatagramSocket(19132);
+	    dgram.setReuseAddress(true);
+	}catch(Throwable e)
+	{ 
+	    startServer.setText("Start Server");
+	    addElement(e.toString());
+	  return null;
 	}
-  private void listen()
-  {
-	  final DatagramSocket udp=begin();
-	  if(udp==null)
-		  return;
-	  startServer.setText("Stop");
-			  
-	  while(true)
-	  {
-		 try
-		 {
-			DatagramPacket pack=new DatagramPacket(rcv,rcv.length);
-            udp.receive(pack);
-			if(pack.getLength()>0)
-			{
-				String str=new String(rcv,0,pack.getLength());
-				Message ms=new Message();
-				Bundle data=new Bundle();
-				data.putString("LOG",str);
-				ms.setData(data);
-				hnd.sendMessage(ms);
-			}
-		 }catch(IOException e){break;}
+      return dgram;
+    }
+    private void listen()
+    {
+	final DatagramSocket udp=begin();
+	if(udp==null)
+	    return;
+	startServer.setText("Stop");
+        while(true)
+	{
+           try
+	   {
+	        DatagramPacket pack=new DatagramPacket(rcv,rcv.length);
+                udp.receive(pack);
+		if(pack.getLength()>0)
+		{
+		    String str=new String(rcv,0,pack.getLength());
+		    Message ms=new Message();
+		    Bundle data=new Bundle();
+		    data.putString("LOG",str);
+		    ms.setData(data);
+		    hnd.sendMessage(ms);
+		}
+	    }catch(IOException e){break;}
 	 }
 	 startServer.setText("Start Server");
-     if(udp!=null)
+         if(udp!=null)
 	 {
-	 try{ udp.close();}catch(Throwable e){}
-	 dgram=null;
+	     try{ udp.close();}catch(Throwable e){}
+	     dgram=null;
 	 }
-	}
-	
-	public void start()
+     }
+     public void start()
+     {
+	new Thread(new Runnable(){public void run(){listen();}}).start();
+     }
+     private void CloseSocket()
+     {
+	if(dgram==null)
+	   return;
+        try
 	{
-		new Thread(new Runnable(){public void run(){listen();}}).start();
-	}
-	
-	private void CloseSocket()
-	{
-		if(dgram==null)
-			return;
-		try
-		{
-			if(dgram!=null)
-				dgram.close();
-		}catch(Throwable e){}
-		dgram=null;
-	}
-	public void close()
-	{
-		new Thread(new Runnable(){public void run(){CloseSocket();}}).start();
-	}
+	   if(dgram!=null)  //I know,but its a thread,who knows what could happen,
+	     dgram.close(); //maybe I should use synchronized(this)
+	   }catch(Throwable e){}
+	   dgram=null;
+     }
+     public void close()
+     {
+	new Thread(new Runnable(){public void run(){CloseSocket();}}).start();
+     }
 	
 	
 	public void addElement(String msg)
@@ -169,23 +167,23 @@ public class MainActivity extends Activity
 		
 		startServer.setOnClickListener(new OnClickListener()
 		{
-            @Override
-			public void onClick(View v)
-			{
-				if(dgram==null)
-					  start();
-				else
-					  close();
-			}
+                   @Override
+		   public void onClick(View v)
+		   {
+			if(dgram==null)
+			   start();
+			else
+			  close();
+		   }
 		});
 		clean.setOnClickListener(new OnClickListener()
 		{
-             @Override
-			 public void onClick(View v) {
-					container.removeAllViews();
-				}
+                    @Override
+	            public void onClick(View v) {
+			container.removeAllViews();
+		    }
 		});
-	}
+	   }
 
 	@Override
 	protected void onDestroy()
@@ -197,10 +195,7 @@ public class MainActivity extends Activity
 	@Override
 	protected void onPause()
 	{
-		close();
+		close();//no run in background
 		super.onPause();
 	}
-
-	
-	
 }
