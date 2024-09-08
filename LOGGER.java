@@ -45,7 +45,7 @@ public abstract class LOGGER
 	    dgram=null
 	}
      }
-     static void SendMessage(final String s)
+    public static void SendMessage(final String s)
      {
 	if( dgram==null || broadcast==null)
 		return;
@@ -63,7 +63,7 @@ public abstract class LOGGER
 	 }).start();
 	}
 
-	static void close()
+	public static void close()
 	{
 	    if(dgram== null)
 		return;
